@@ -90,11 +90,18 @@ deepseek = DeepSeekProfile(
     description="DeepSeek — native DeepSeek API",
     signup_url="https://platform.deepseek.com/",
     fallback_models=(
+        # V4 family — current generation (1M ctx, 384K out, tool calling +
+        # thinking). Listed first so the /model picker surfaces them by default.
+        "deepseek-v4-pro",
+        "deepseek-v4-flash",
+        # Legacy aliases — both retire 2026-07-24. deepseek-chat → v4-flash
+        # (no reasoning), deepseek-reasoner → v4-flash (thinking on).
         "deepseek-chat",
         "deepseek-reasoner",
     ),
     base_url="https://api.deepseek.com/v1",
-    default_aux_model="deepseek-chat",
+    # Cheap model for auxiliary tasks (compression, vision, titles, etc.).
+    default_aux_model="deepseek-v4-flash",
 )
 
 register_provider(deepseek)
